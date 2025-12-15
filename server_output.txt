@@ -1,0 +1,29 @@
+Server process started
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Starting server...
+MONGO_URI is set: true
+MongoDB Connected successfully.
+Server is running on port 5000
+Login attempt: { email: 'abdul@gmail.com' }
+Signup attempt: { username: 'midhrix', email: 'orochishadda@gmail.com' }
+Signup attempt: { username: 'abdulqadir', email: 'orochishadda@gmail.com' }
+Signup attempt: { username: 'abdulqadir', email: 'orochishadda@gmail.com' }
+Signup attempt: { username: 'abdulqadir', email: 'orochishadda@gmail.com' }
+Signup attempt: { username: 'abdulqadir', email: 'orochishadda@gmail.com' }
+Signup attempt: { username: 'midha', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'midha.drnd', email: 'midha@gmail.com' }
+Signup attempt: { username: 'park1239', email: 'park@gmail.com' }
+Signup attempt: { username: 'park1239', email: 'park@gmail.com' }
+Signup attempt: { username: 'park1239', email: 'park@gmail.com' }
+Signup attempt: { username: 'ca1lmemidhu', email: 'memidhu@gmail.com' }
+Signup attempt: {
+  username: 'testuser_1765099794961',
+  email: 'test_1765099794961@example.com'
+}
