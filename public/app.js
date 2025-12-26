@@ -47,8 +47,8 @@ const loginForm = document.getElementById('login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value; // Don't trim password usually, but maybe? No, keep password as is.
 
         try {
             const res = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -77,8 +77,8 @@ const signupForm = document.getElementById('signup-form');
 if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
 
         try {
@@ -148,6 +148,7 @@ async function loadPosts() {
         const res = await fetch(`${API_BASE_URL}/posts`, {
             headers: { 'x-auth-token': token }
         });
+        if (handleAuthError(res)) return;
         if (!res.ok) throw new Error('Failed to fetch posts');
         const posts = await res.json();
         postsContainer.innerHTML = posts.map(post => createPostHTML(post)).join('');
@@ -170,8 +171,9 @@ async function loadProfile() {
     try {
         // Get current user's info
         const userRes = await fetch(`${API_BASE_URL}/users/me`, {
-             headers: { 'x-auth-token': token }
+            headers: { 'x-auth-token': token }
         });
+        if (handleAuthError(userRes)) return;
         if (!userRes.ok) throw new Error('Failed to fetch user profile');
         const user = await userRes.json();
 
@@ -237,7 +239,7 @@ function createPostHTML(post) {
 async function handlePostAction(e) {
     const target = e.target;
     const action = target.dataset.action;
-    
+
     // Handle form submission for comments
     if (target.closest('.comment-form')) {
         e.preventDefault();
@@ -251,7 +253,7 @@ async function handlePostAction(e) {
         input.value = '';
         return;
     }
-    
+
     if (!action) return; // Not a button click we care about
 
     const postElement = target.closest('.post');
@@ -280,15 +282,16 @@ async function likePost(postId, postElement) {
             method: 'PUT',
             headers: { 'x-auth-token': token }
         });
+        if (handleAuthError(res)) return;
         if (!res.ok) throw new Error('Like action failed');
         const updatedPost = await res.json();
-        
+
         // Update UI directly
         const likeButton = postElement.querySelector('[data-action="like"]');
         const likeCountSpan = postElement.querySelector('.like-count');
         const currentUserId = localStorage.getItem('userId');
         const isLiked = updatedPost.likes.includes(currentUserId);
-        
+
         likeButton.textContent = isLiked ? 'Unlike' : 'Like';
         likeCountSpan.textContent = updatedPost.likes.length;
         // Re-add the count span that we just overwrote
@@ -324,13 +327,14 @@ async function postComment(postId, text, postElement) {
             },
             body: JSON.stringify({ text })
         });
+        if (handleAuthError(res)) return;
         if (!res.ok) throw new Error('Failed to post comment');
         const newComment = await res.json();
-        
+
         // Update UI directly
         const commentsList = postElement.querySelector('.comments-list');
         const commentCountSpan = postElement.querySelector('.comment-count');
-        
+
         const commentElement = document.createElement('div');
         commentElement.classList.add('comment');
         // The backend returns the new comment object, which should have the user populated
@@ -356,3 +360,26 @@ function attachPostEventListeners() {
 
 // --- Initial Load ---
 checkAuth();
+
+// --- Helper for 401 Auto-Logout ---
+function handleAuthError(res) {
+    if (res.status === 401) {
+        removeToken();
+        window.location.href = 'login.html';
+        return true;
+    }
+    return false;
+}
+
+// --- Password Toggle ---
+document.querySelectorAll('.toggle-password').forEach(button => {
+    button.addEventListener('click', function () {
+        const targetId = this.dataset.target;
+        const input = document.getElementById(targetId);
+        if (input) {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            this.textContent = type === 'password' ? 'Show' : 'Hide';
+        }
+    });
+});

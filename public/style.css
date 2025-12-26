@@ -114,3 +114,35 @@ button:hover {
     color: red;
     margin-bottom: 10px;
 }
+
+/* Password Toggle Styles */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding/border doesn't overflow */
+    padding-right: 40px; /* Space for the button */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 35%; /* Center vertically relative to input height roughly */
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: #666;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.toggle-password:hover {
+    color: #333;
+    background: none;
+}
